@@ -40,7 +40,7 @@ SCRIPT3
   config.vm.provision "status", type: "shell", inline: $script_status, privileged: false
 
   # Expose http/s port
-  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
   config.vm.provider :libvirt do |v|
     v.memory = 1024
