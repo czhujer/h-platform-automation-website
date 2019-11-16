@@ -15,6 +15,11 @@ Vagrant.configure(2) do |config|
     :inline => "mkdir -p /etc/docker/compose/wordpress-stack && cp /vagrant/docker-files/wordpress-stack.yaml /etc/docker/compose/wordpress-stack/docker-compose.yaml",
     :privileged => true
 
+  config.vm.provision "nginx-files",
+    type: "shell",
+    :inline =>  "mkdir -p /etc/docker/compose/wordpress-stack/nginx-conf; cp /vagrant/nginx-conf/nginx.conf /etc/docker/compose/wordpress-stack/nginx-conf/nginx-all.conf",
+    :privileged => true
+
   config.vm.provision "compose-exec",
     type: "shell",
     path: 'scripts/docker-compose-exec.sh',
@@ -29,7 +34,7 @@ SCRIPT3
   config.vm.provision "status", type: "shell", inline: $script_status, privileged: false
 
   # Expose http/s port
-  config.vm.network "forwarded_port", guest: 4646, host: 4646, auto_correct: true
+  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
 
   config.vm.provider :libvirt do |v|
     v.memory = 1024
