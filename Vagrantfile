@@ -30,6 +30,11 @@ Vagrant.configure(2) do |config|
     path: 'scripts/bootstrap-wordpress.sh',
     :privileged => true
 
+  config.vm.provision "bootstrap-wordpress-plugins",
+    type: "shell",
+    path: 'scripts/bootstrap-wordpress-plugins.sh',
+    :privileged => true
+
 $script_status = <<SCRIPT3
 echo "Showing status of wordpress-stack compose..."
 cd /etc/docker/compose/wordpress-stack && docker-compose ps
