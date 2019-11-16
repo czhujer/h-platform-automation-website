@@ -23,13 +23,11 @@ Vagrant.configure(2) do |config|
   config.vm.provision "compose-exec",
     type: "shell",
     path: 'scripts/docker-compose-exec.sh',
-    args: ["wordpress-stack"],
     :privileged => true
 
   config.vm.provision "bootstrap-wordpress",
     type: "shell",
     path: 'scripts/bootstrap-wordpress.sh',
-    #args: ["wordpress-stack"],
     :privileged => true
 
 $script_status = <<SCRIPT3
