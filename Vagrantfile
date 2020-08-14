@@ -45,7 +45,7 @@ echo "Showing status of wordpress-stack compose..."
 cd /etc/docker/compose/wordpress-stack && docker-compose ps
 SCRIPT3
 
-  config.vm.provision "status", type: "shell", inline: $script_status, privileged: false
+  config.vm.provision "status", type: "shell", inline: $script_status, privileged: true
 
   # Expose http/s port
   config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
