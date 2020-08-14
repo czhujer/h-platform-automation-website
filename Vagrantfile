@@ -1,14 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+#in case you have problem(s) with "vagrant up", use main vagrantfile in repo h-platform-automation-infrastructure
+
 Vagrant.configure(2) do |config|
-  config.vm.box = "peru/ubuntu-18.04-server-amd64" # 18.04 LTS
+  config.vm.box = "peru/ubuntu-20.04-server-amd64"
   config.vm.hostname = "wordpress-stack"
   config.vm.define "wordpress-stack"
 
-  config.vm.synced_folder '.', '/vagrant', type: 'sshfs'
+  dir = File.expand_path("..", __FILE__)
+  puts "DIR: #{dir}"
 
-  config.vm.provision "docker-install", type: "shell", path: 'scripts/bootstrap-docker.sh', privileged: false
+  config.vm.synced_folder dir, '/vagrant', type: 'sshfs'
+
+  config.vm.provision "docker-install", type: "shell", path: File.join(dir,'scripts/bootstrap-docker.sh'), privileged: false
 
   config.vm.provision "compose-files",
     type: "shell",
@@ -22,17 +27,17 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "compose-exec",
     type: "shell",
-    path: 'scripts/docker-compose-exec.sh',
+    path: File.join(dir,'scripts/docker-compose-exec.sh'),
     :privileged => true
 
   config.vm.provision "bootstrap-wordpress",
     type: "shell",
-    path: 'scripts/bootstrap-wordpress.sh',
+    path: File.join(dir,'scripts/bootstrap-wordpress.sh'),
     :privileged => true
 
   config.vm.provision "bootstrap-wordpress-plugins",
     type: "shell",
-    path: 'scripts/bootstrap-wordpress-plugins.sh',
+    path: File.join(dir,'scripts/bootstrap-wordpress-plugins.sh'),
     :privileged => true
 
 $script_status = <<SCRIPT3
