@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STACKNAME="wordpressstack"
+STACKNAME="wordpress-stack"
 WEBROOT="/var/www/html"
 
 PLUGINNAME="calculoid-calculators-builder"

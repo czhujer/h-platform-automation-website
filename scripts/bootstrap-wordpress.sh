@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STACKNAME="wordpressstack"
+STACKNAME="wordpress-stack"
 SITEURL="127.0.0.1:8080"
 WEBROOT="/var/www/html"
 
@@ -9,7 +9,12 @@ PASSWORD="password"
 
 echo "Bootstrap wordpress..."
 
-sleep 30
+# Wait for the wordpress php-fpm port to be available
+until nc -z $(sudo docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wordpress) 9000
+do
+    echo "waiting for wordpress container..."
+    sleep 5
+done
 
 docker run --rm \
     --volumes-from wordpress \
